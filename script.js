@@ -223,11 +223,11 @@ async function fetchAPI() {
     
     // If user only entered endpoint path (starts with /), prepend base URL
     if (url.startsWith('/')) {
-        url = 'http://localhost:3001' + url;
+        url = 'https://api-mvr.vercel.app/' + url;
     }
     
     if (!isValidUrl(url)) {
-        showError('URL không hợp lệ. Vui lòng nhập URL đầy đủ (ví dụ: /gioithieu hoặc http://localhost:3001/tkb)');
+        showError('URL không hợp lệ. Vui lòng nhập URL đầy đủ (ví dụ: /gioithieu hoặc https://api-mvr.vercel.app/gioithieu)');
         return;
     }
     
@@ -384,3 +384,4 @@ if (typeof module !== 'undefined' && module.exports) {
         formatJSON
     };
 }
+
