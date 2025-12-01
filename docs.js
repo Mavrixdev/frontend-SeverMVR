@@ -85,7 +85,7 @@ function getDefaultBase() {
     // Prefer page origin when available (same-origin deployments). Fall back to localhost:3000.
     try {
         const origin = window.location.origin;
-        if (origin && origin !== 'null' && origin.startsWith('http')) return origin;
+        if (origin && origin !== 'null' && origin.startsWith('https')) return origin;
     } catch (e) {}
     return 'https://api-mvr.vercel.app';
 }
@@ -109,7 +109,7 @@ async function fetchAndRenderEndpoints() {
         const url = `${base}/__endpoints`;
         try {
             const resp = await fetch(url, { cache: 'no-store' });
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            if (!resp.ok) throw new Error(`HTTPS ${resp.status}`);
             const data = await resp.json();
             if (Array.isArray(data)) {
                 endpoints = data;
@@ -146,7 +146,7 @@ async function fetchAndRenderEndpoints() {
     } catch (error) {
         console.error('Could not load endpoints list:', error);
         // Fallback: leave container empty or show a message
-        container.innerHTML = '<div class="endpoint-card glass-card"><p class="endpoint-description">Không thể tải danh sách endpoints. Hãy đảm bảo backend đang chạy trên <code>http://localhost:3001</code> hoặc chỉnh sửa `getDefaultBase()`.</p></div>';
+        container.innerHTML = '<div class="endpoint-card glass-card"><p class="endpoint-description">Không thể tải danh sách endpoints. Hãy đảm bảo backend đang chạy trên <code>https://api-mvr.vercel.app</code> hoặc chỉnh sửa `getDefaultBase()`.</p></div>';
     }
 }
 
@@ -176,4 +176,5 @@ if (typeof module !== 'undefined' && module.exports) {
         initDocsPage
     };
 }
+
 
