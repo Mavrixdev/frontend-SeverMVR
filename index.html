@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Home - Mậu Dev</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Gradient -->
+    <div class="bg-gradient"></div>
+    
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="4" width="24" height="24" rx="6" stroke="#3a7afe" stroke-width="2"/>
+                        <path d="M12 16L14 18L20 12" stroke="#3a7afe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1 class="site-title">API Mavrixdev</h1>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link active">Home</a>
+                <a href="docs.html" class="nav-link">Docs</a>
+                <a href="events.html" class="nav-link">Sự Kiện</a>
+                <a href="info.html" class="nav-link">About</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- API Input Section -->
+            <section class="api-input-section">
+                <div class="glass-card">
+                    <h2 class="section-title">
+                        <span class="icon">🔗</span>
+                        Nhập API
+                    </h2>
+                    <p class="section-description">
+                        Nhập URL API để lấy dữ liệu và hiển thị kết quả
+                    </p>
+                    
+                    <div class="input-group">
+                        <input 
+                            type="text" 
+                            id="apiInput" 
+                            class="api-input" 
+                            placeholder="Nhập URL API tại đây "
+                            value=""
+                        >
+                        <button id="fetchBtn" class="fetch-btn">
+                            <span class="btn-text">Tra Cứu API</span>
+                            <span class="btn-icon">→</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection">
+                
+                <!-- Loading Spinner -->
+                <div class="loading-container" id="loadingContainer">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Đang tải dữ liệu...</p>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-container" id="errorContainer">
+                    <div class="error-icon">⚠️</div>
+                    <h3 class="error-title">Có lỗi xảy ra</h3>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+
+                <!-- Success Results -->
+                <div class="results-container" id="resultsContainer">
+                    <div class="glass-card result-card">
+                        <div class="result-header">
+                            <h2 class="section-title">
+                                <span class="icon">✨</span>
+                                Kết quả API
+                            </h2>
+                            <button class="copy-btn" id="copyBtn" title="Copy JSON">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="result-content" id="resultContent">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
+
+                        <div class="raw-json-container">
+                            <button class="toggle-json-btn" id="toggleJsonBtn">
+                                <span>Xem Raw JSON</span>
+                                <span class="toggle-icon">▼</span>
+                            </button>
+                            <pre class="raw-json" id="rawJson"></pre>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ by Mavrixdev | API HOME</p>
+        </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

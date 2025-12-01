@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Sự Kiện - API Mavrixdev</title>
+    <link rel="stylesheet" href="events.css">
+</head>
+<body>
+    <!-- Background Gradient -->
+    <div class="bg-gradient"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="4" width="24" height="24" rx="6" stroke="#3a7afe" stroke-width="2"/>
+                        <path d="M12 16L14 18L20 12" stroke="#3a7afe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1 class="site-title">API Mavrixdev</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="docs.html" class="nav-link">Docs</a>
+                <a href="events.html" class="nav-link active">Events</a>
+                <a href="info.html" class="nav-link">About</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Events Header Section -->
+            <section class="events-header-section">
+                <div class="glass-card">
+                    <h2 class="section-title">
+                        <span class="icon">📅</span>
+                        Lịch Sự Kiện Việt Nam
+                    </h2>
+                    <p class="section-description">
+                        Danh sách các ngày lễ, sự kiện quan trọng và kỳ nghỉ của Việt Nam
+                    </p>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-number" id="totalEvents">0</span>
+                            <span class="stat-label">Tổng sự kiện</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="upcomingEvents">0</span>
+                            <span class="stat-label">Sắp diễn ra</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="holidays">0</span>
+                            <span class="stat-label">Ngày lễ</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Events List Section -->
+            <section class="events-section">
+                <div class="events-controls">
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">Tất cả</button>
+                        <button class="filter-btn" data-filter="holiday">Ngày lễ</button>
+                        <button class="filter-btn" data-filter="upcoming">Sắp tới</button>
+                        <button class="filter-btn" data-filter="current-year">Năm nay</button>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm sự kiện...">
+                        <button id="clearSearch" class="clear-search-btn">✕</button>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading-container" id="loadingContainer">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Đang tải danh sách sự kiện...</p>
+                </div>
+
+                <!-- Error State -->
+                <div class="error-container" id="errorContainer">
+                    <div class="error-icon">⚠️</div>
+                    <h3 class="error-title">Không thể tải dữ liệu</h3>
+                    <p class="error-message" id="errorMessage"></p>
+                    <button id="retryBtn" class="retry-btn">Thử lại</button>
+                </div>
+
+                <!-- Events Grid -->
+                <div class="events-grid" id="eventsGrid">
+                    <!-- Events will be dynamically inserted here -->
+                </div>
+
+                <!-- Load More Button -->
+                <div class="load-more-container" id="loadMoreContainer">
+                    <button id="loadMoreBtn" class="load-more-btn">
+                        <span>Xem thêm</span>
+                        <span class="load-icon">▼</span>
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ by Mavrixdev | API HOME</p>
+        </footer>
+
+    </div>
+
+    <script src="events.js"></script>
+</body>
+</html>

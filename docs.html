@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Docs - Mậu Dev</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Gradient -->
+    <div class="bg-gradient"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="4" y="4" width="24" height="24" rx="6" stroke="#3a7afe" stroke-width="2"/>
+                        <path d="M12 16L14 18L20 12" stroke="#3a7afe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1 class="site-title">API Mavrixdev</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="docs.html" class="nav-link active">Docs</a>
+                <a href="events.html" class="nav-link">Sự Kiện</a>
+                <a href="info.html" class="nav-link">About</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Documentation Header -->
+            <section class="docs-header">
+                <div class="glass-card">
+                    <h1 class="docs-title">
+                        <span class="icon">📚</span>
+                        API Documentation
+                    </h1>
+                    <p class="docs-description">
+                        Khám phá và test tất cả API endpoints có sẵn. Click vào bất kỳ endpoint nào để tự động chuyển về trang Home và test ngay.
+                    </p>
+                </div>
+            </section>
+
+            <!-- API Endpoints -->
+            <section class="api-endpoints">
+
+                <!-- Dynamic endpoints will be injected here -->
+                <div id="apiEndpointsContainer"></div>
+
+                <!-- API Info -->
+                <div class="api-info-card glass-card">
+                    <h3 class="info-title">
+                        <span class="icon">ℹ️</span>
+                        Thông tin API
+                    </h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Base URL:</strong>
+                            <code>http://localhost:3001</code>
+                        </div>
+                        <div class="info-item">
+                            <strong>Format:</strong>
+                            <code>JSON</code>
+                        </div>
+                        <div class="info-item">
+                            <strong>Authentication:</strong>
+                            <code>None required</code>
+                        </div>
+                        <div class="info-item">
+                            <strong>Rate Limit:</strong>
+                            <code>No limit</code>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ by Mavrixdev | API DOCS</p>
+        </footer>
+
+    </div>
+
+    <script src="docs.js"></script>
+</body>
+</html>
