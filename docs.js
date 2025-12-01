@@ -87,7 +87,7 @@ function getDefaultBase() {
         const origin = window.location.origin;
         if (origin && origin !== 'null' && origin.startsWith('http')) return origin;
     } catch (e) {}
-    return 'http://localhost:3001';
+    return 'https://api-mvr.vercel.app';
 }
 
 /**
@@ -100,8 +100,7 @@ async function fetchAndRenderEndpoints() {
     // Candidate bases to probe (in order): page origin, localhost:3000, localhost:3001
     const candidates = [];
     try { if (window.location && window.location.origin && window.location.origin !== 'null') candidates.push(window.location.origin); } catch (e) {}
-    candidates.push('http://localhost:3000');
-    candidates.push('http://localhost:3001');
+    candidates.push('https://api-mvr.vercel.app');
 
     let endpoints = null;
     let successfulBase = null;
@@ -177,3 +176,4 @@ if (typeof module !== 'undefined' && module.exports) {
         initDocsPage
     };
 }
+
