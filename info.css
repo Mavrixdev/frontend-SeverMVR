@@ -265,3 +265,8 @@
   .bio { font-size: 1rem; }
 }
 
+.info-card * {
+  all: unset;
+  display: revert;
+}
+
