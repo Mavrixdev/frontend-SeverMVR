@@ -7,6 +7,23 @@
     <link rel="stylesheet" href="events.css">
 </head>
 <body>
+    <!-- EVENT DETAILS POPUP -->
+    <div class="event-modal" id="eventModal">
+        <div class="event-modal-content">
+            <button class="modal-close" id="modalClose">✕</button>
+            <h2 class="modal-title" id="modalTitle"></h2>
+            <p class="modal-date" id="modalDate"></p>
+            <p class="modal-description" id="modalDescription"></p>
+    
+            <div class="modal-meta">
+                <span id="modalType"></span>
+                <span id="modalDuration"></span>
+            </div>
+    
+            <button class="modal-copy-btn" id="modalCopy">Copy sự kiện</button>
+        </div>
+    </div>
+
     <!-- Background Gradient -->
     <div class="bg-gradient"></div>
 
@@ -117,3 +134,4 @@
     <script src="events.js"></script>
 </body>
 </html>
+
