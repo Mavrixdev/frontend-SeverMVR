@@ -13,47 +13,34 @@ const rawJson = document.getElementById('rawJson');
 const toggleJsonBtn = document.getElementById('toggleJsonBtn');
 const copyBtn = document.getElementById('copyBtn');
 
+let currentData = null;
+
 // ========================================
 // UTILITY FUNCTIONS
 // ========================================
 
-/**
- * Show loading state
- */
 function showLoading() {
     hideAllStates();
     loadingContainer.classList.add('active');
 }
 
-/**
- * Show error state
- */
 function showError(message) {
     hideAllStates();
     errorContainer.classList.add('active');
     errorMessage.textContent = message;
 }
 
-/**
- * Show results state
- */
 function showResults() {
     hideAllStates();
     resultsContainer.classList.add('active');
 }
 
-/**
- * Hide all state containers
- */
 function hideAllStates() {
     loadingContainer.classList.remove('active');
     errorContainer.classList.remove('active');
     resultsContainer.classList.remove('active');
 }
 
-/**
- * Validate URL
- */
 function isValidUrl(string) {
     try {
         new URL(string);
@@ -63,41 +50,20 @@ function isValidUrl(string) {
     }
 }
 
-/**
- * Format JSON with syntax highlighting
- */
 function formatJSON(obj, indent = 2) {
     return JSON.stringify(obj, null, indent);
 }
 
-/**
- * Detect data type and return appropriate icon
- */
 function getTypeIcon(value) {
-    if (typeof value === 'string' && value.startsWith('http')) {
-        return '🔗';
-    }
-    if (typeof value === 'string') {
-        return '📝';
-    }
-    if (typeof value === 'number') {
-        return '🔢';
-    }
-    if (typeof value === 'boolean') {
-        return '✓';
-    }
-    if (Array.isArray(value)) {
-        return '📋';
-    }
-    if (typeof value === 'object') {
-        return '📦';
-    }
+    if (typeof value === 'string' && value.startsWith('http')) return '🔗';
+    if (typeof value === 'string') return '📝';
+    if (typeof value === 'number') return '🔢';
+    if (typeof value === 'boolean') return '✓';
+    if (Array.isArray(value)) return '📋';
+    if (typeof value === 'object') return '📦';
     return '•';
 }
 
-/**
- * Render a single data item
- */
 function renderDataItem(key, value) {
     const item = document.createElement('div');
     item.className = 'result-item';
@@ -108,15 +74,10 @@ function renderDataItem(key, value) {
     
     const valueDiv = document.createElement('div');
     valueDiv.className = 'result-value';
-    
-    // Special handling for title (make it large)
-    if (key.toLowerCase() === 'title') {
-        valueDiv.classList.add('large');
-    }
-    
-    // Handle different value types
+
+    if (key.toLowerCase() === 'title') valueDiv.classList.add('large');
+
     if (typeof value === 'string' && value.startsWith('http')) {
-        // It's a URL - make it clickable
         const link = document.createElement('a');
         link.href = value;
         link.target = '_blank';
@@ -124,8 +85,8 @@ function renderDataItem(key, value) {
         link.textContent = value;
         link.innerHTML += ' <span style="font-size: 0.8em;">↗</span>';
         valueDiv.appendChild(link);
-    } else if (Array.isArray(value)) {
-        // It's an array - show empty message if no items
+    } 
+    else if (Array.isArray(value)) {
         if (value.length === 0) {
             valueDiv.textContent = 'Chưa có dữ liệu';
             valueDiv.style.color = 'var(--text-secondary)';
@@ -139,8 +100,8 @@ function renderDataItem(key, value) {
             arrayContent.appendChild(arrayPre);
             valueDiv.appendChild(arrayContent);
         }
-    } else if (typeof value === 'object' && value !== null) {
-        // It's an object
+    } 
+    else if (typeof value === 'object' && value !== null) {
         valueDiv.textContent = 'Object';
         const objContent = document.createElement('pre');
         objContent.style.marginTop = '0.5rem';
@@ -150,32 +111,22 @@ function renderDataItem(key, value) {
         objContent.style.fontSize = '0.9rem';
         objContent.textContent = JSON.stringify(value, null, 2);
         valueDiv.appendChild(objContent);
-    } else {
-        // Simple value
+    } 
+    else {
         valueDiv.textContent = value;
     }
-    
+
     item.appendChild(label);
     item.appendChild(valueDiv);
-    
     return item;
 }
 
-/**
- * Render API response data
- */
 function renderData(data) {
     resultContent.innerHTML = '';
-    
-    // Handle different response structures
     let dataToRender = data;
-    
-    // If response has a 'data' property, use that
-    if (data.data) {
-        dataToRender = data.data;
-    }
-    
-    // If it's an array, render each item
+
+    if (data.data) dataToRender = data.data;
+
     if (Array.isArray(dataToRender)) {
         dataToRender.forEach((item, index) => {
             const header = document.createElement('h3');
@@ -194,124 +145,96 @@ function renderData(data) {
             }
         });
     } 
-    // If it's an object, render each property
     else if (typeof dataToRender === 'object' && dataToRender !== null) {
         Object.entries(dataToRender).forEach(([key, value]) => {
             resultContent.appendChild(renderDataItem(key, value));
         });
     } 
-    // If it's a primitive value
     else {
         resultContent.appendChild(renderDataItem('Result', dataToRender));
     }
-    
-    // Update raw JSON display
+
     rawJson.textContent = formatJSON(data);
 }
 
-/**
- * Fetch API data
- */
+// ========================================
+// FIX: FETCH API USING WEB API
+// ========================================
+
 async function fetchAPI() {
     let url = apiInput.value.trim();
-    
-    // Validate URL
+
     if (!url) {
         showError('Vui lòng nhập URL API');
         return;
     }
-    
-    // If user only entered endpoint path (starts with /), prepend base URL
+
+    // Nếu bé nhập "/gioithieu" thì auto dùng API WEB
     if (url.startsWith('/')) {
-        url = 'https://api-mvr.vercel.app/' + url;
+        url = "https://api-mvr.vercel.app" + url;
     }
-    
+
+    // Validate URL
     if (!isValidUrl(url)) {
-        showError('URL không hợp lệ. Vui lòng nhập URL đầy đủ (ví dụ: /gioithieu hoặc https://api-mvr.vercel.app/gioithieu)');
+        showError('URL không hợp lệ. Ví dụ: /gioithieu hoặc https://api-mvr.vercel.app/gioithieu');
         return;
     }
-    
-    
-    // Show loading
+
     showLoading();
-    
+
     try {
-        // Fetch data
         const response = await fetch(url, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' }
         });
-        
-        // Check if response is ok
+
         if (!response.ok) {
             throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
         }
-        
-        // Parse JSON
+
         const data = await response.json();
-        
-        // Store current data
         currentData = data;
-        
-        // Render data
+
         renderData(data);
-        
-        // Show results with animation delay
-        setTimeout(() => {
-            showResults();
-        }, 300);
-        
+
+        setTimeout(() => showResults(), 300);
+
     } catch (error) {
         console.error('Fetch error:', error);
-        
-        // Show appropriate error message
-        let errorMsg = 'Không thể kết nối đến API. ';
-        
+        let msg = 'Không thể kết nối đến API. ';
         if (error.message.includes('Failed to fetch')) {
-            errorMsg += 'Vui lòng kiểm tra:\n• Server có đang chạy không?\n• URL có đúng không?\n• CORS có được cấu hình không?';
-        } else if (error.message.includes('HTTP Error')) {
-            errorMsg += error.message;
-        } else {
-            errorMsg += error.message;
-        }
-        
-        showError(errorMsg);
+            msg += 'Vui lòng kiểm tra API Vercel hoặc CORS.';
+        } else msg += error.message;
+
+        showError(msg);
     }
 }
 
-/**
- * Copy JSON to clipboard
- */
+// ========================================
+// CLIPBOARD & TOGGLE RAW JSON
+// ========================================
+
 async function copyToClipboard() {
-    if (!currentData) {
-        return;
-    }
-    
+    if (!currentData) return;
+
     try {
         const jsonString = formatJSON(currentData);
         await navigator.clipboard.writeText(jsonString);
-        
-        // Show success feedback
-        const originalText = copyBtn.innerHTML;
+
+        const original = copyBtn.innerHTML;
         copyBtn.innerHTML = '<span style="color: var(--success);">✓ Đã copy!</span>';
-        copyBtn.style.background = 'rgba(16, 185, 129, 0.2)';
-        
+        copyBtn.style.background = 'rgba(16,185,129,0.2)';
+
         setTimeout(() => {
-            copyBtn.innerHTML = originalText;
+            copyBtn.innerHTML = original;
             copyBtn.style.background = '';
         }, 2000);
-        
-    } catch (error) {
-        console.error('Copy error:', error);
-        alert('Không thể copy. Vui lòng thử lại.');
+
+    } catch (err) {
+        alert('Không thể copy.');
     }
 }
 
-/**
- * Toggle raw JSON display
- */
 function toggleRawJson() {
     rawJson.classList.toggle('active');
     toggleJsonBtn.classList.toggle('active');
@@ -321,67 +244,37 @@ function toggleRawJson() {
 // EVENT LISTENERS
 // ========================================
 
-// Fetch button click
 fetchBtn.addEventListener('click', fetchAPI);
-
-// Enter key in input
 apiInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        fetchAPI();
-    }
+    if (e.key === 'Enter') fetchAPI();
 });
-
-// Copy button click
 copyBtn.addEventListener('click', copyToClipboard);
-
-// Toggle JSON button click
 toggleJsonBtn.addEventListener('click', toggleRawJson);
 
 // ========================================
 // INITIALIZATION
 // ========================================
 
-// Add some initial animation
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 API Explorer initialized');
-    
-    // Focus on input
+    console.log('🚀 API Explorer Ready');
+
     apiInput.focus();
-    
-    // Add keyboard shortcut (Ctrl/Cmd + Enter to fetch)
+
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
             fetchAPI();
         }
     });
-    
-    // If navigated from docs page, prefill input and auto-fetch
+
+    // Tự lấy URL từ Docs
     try {
         const apiToTest = sessionStorage.getItem('apiToTest');
         if (apiToTest) {
             apiInput.value = apiToTest;
-            // clear it so subsequent loads don't auto-fetch
             sessionStorage.removeItem('apiToTest');
-            // small delay to allow UI to settle
-            setTimeout(() => {
-                fetchAPI();
-            }, 200);
+
+            setTimeout(() => fetchAPI(), 200);
         }
-    } catch (e) {
-        // ignore storage errors
-    }
+    } catch {}
 });
-
-// ========================================
-// EXPORT FOR TESTING (if needed)
-// ========================================
-
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        fetchAPI,
-        renderData,
-        isValidUrl,
-        formatJSON
-    };
-}
 
