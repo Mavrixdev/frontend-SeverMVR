@@ -13,11 +13,15 @@ class EventsManager {
         this.currentFilter = 'all';
         this.searchTerm = '';
 
-        this.API_BASE = "https://api-mvr.vercel.app"; // 🔥 FIX: Web API base
+        this.API_BASE = "https://api-mvr.vercel.app"; 
+
+        this.calendarDate = new Date();
 
         this.init();
     }
-
+    
+    this.calendarDate = new Date();
+    
     init() {
         this.bindEvents();
         this.fetchEvents();
@@ -289,3 +293,4 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(title);
     });
 });
+
