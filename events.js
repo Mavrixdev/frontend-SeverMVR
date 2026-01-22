@@ -251,9 +251,41 @@ class EventsManager {
         document.getElementById('errorContainer').style.display = 'flex';
         document.getElementById('errorMessage').textContent = message;
     }
-}
+    
+    openEventModal(event) {
+        const modal = document.getElementById('eventModal');
 
+        document.getElementById('modalTitle').textContent = event.title;
+        document.getElementById('modalDate').textContent =
+            `${event.day} ${event.month}, ${event.year}`;
+        document.getElementById('modalDescription').textContent = event.description;
+
+        document.getElementById('modalType').textContent =
+            event.isHoliday ? "Ngày lễ" : "Sự kiện";
+
+        document.getElementById('modalDuration').textContent =
+            event.lasting > 0 ? `${event.lasting} phút` : "Cả ngày";
+
+        modal.classList.add('active');
+    }
+
+    closeModal() {
+        document.getElementById('eventModal').classList.remove('active');
+    }
+} // ⬅ hết class ở đây
+
+// KHÔNG được bỏ hai hàm ra ngoài class nhé
 document.addEventListener('DOMContentLoaded', () => {
-    new EventsManager();
-});
+    const manager = new EventsManager();
 
+    // gắn nút đóng modal
+    document.getElementById('modalClose').addEventListener('click', () => {
+        manager.closeModal();
+    });
+
+    // copy nút
+    document.getElementById('modalCopy').addEventListener('click', () => {
+        const title = document.getElementById('modalTitle').textContent;
+        navigator.clipboard.writeText(title);
+    });
+});
