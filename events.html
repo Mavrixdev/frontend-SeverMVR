@@ -97,6 +97,26 @@
                         <button id="clearSearch" class="clear-search-btn">✕</button>
                     </div>
                 </div>
+                <!-- Calendar View -->
+                <div class="calendar-wrapper" id="calendarView" style="display: none;">
+                    <div class="calendar-header">
+                        <button id="prevMonth" class="month-btn">◀</button>
+                        <h3 id="calendarTitle"></h3>
+                        <button id="nextMonth" class="month-btn">▶</button>
+                    </div>
+                
+                    <div class="calendar-grid">
+                        <div class="calendar-day-name">CN</div>
+                        <div class="calendar-day-name">T2</div>
+                        <div class="calendar-day-name">T3</div>
+                        <div class="calendar-day-name">T4</div>
+                        <div class="calendar-day-name">T5</div>
+                        <div class="calendar-day-name">T6</div>
+                        <div class="calendar-day-name">T7</div>
+                
+                        <div id="calendarDays"></div>
+                    </div>
+                </div>
 
                 <!-- Loading State -->
                 <div class="loading-container" id="loadingContainer">
@@ -138,5 +158,6 @@
     <script src="events.js"></script>
 </body>
 </html>
+
 
 
