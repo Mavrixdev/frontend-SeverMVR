@@ -1,6 +1,6 @@
 /**
- * Events Page JavaScript
- * Handles fetching and displaying calendar events
+ * Events Page JavaScript (WEB API VERSION)
+ * Fetch and display events from API Vercel
  */
 
 class EventsManager {
@@ -13,6 +13,8 @@ class EventsManager {
         this.currentFilter = 'all';
         this.searchTerm = '';
 
+        this.API_BASE = "https://api-mvr.vercel.app"; // 🔥 FIX: Web API base
+
         this.init();
     }
 
@@ -22,30 +24,25 @@ class EventsManager {
     }
 
     bindEvents() {
-        // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 this.setFilter(e.target.dataset.filter);
             });
         });
 
-        // Search input
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', (e) => {
             this.setSearchTerm(e.target.value);
         });
 
-        // Clear search
         document.getElementById('clearSearch').addEventListener('click', () => {
             this.clearSearch();
         });
 
-        // Load more button
         document.getElementById('loadMoreBtn').addEventListener('click', () => {
             this.loadMoreEvents();
         });
 
-        // Retry button
         document.getElementById('retryBtn').addEventListener('click', () => {
             this.fetchEvents();
         });
@@ -55,7 +52,8 @@ class EventsManager {
         this.showLoading();
 
         try {
-            const response = await fetch('http://localhost:3001/sukien');
+            // 🔥 FIX: Fetch bằng API Web, không dùng localhost
+            const response = await fetch(`${this.API_BASE}/sukien`);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -81,23 +79,26 @@ class EventsManager {
     }
 
     processEvents() {
-        // Add additional properties for filtering and display
         this.events.forEach(event => {
             const eventDate = new Date(event.date);
             const now = new Date();
             const currentYear = now.getFullYear();
 
-            event.isHoliday = event.title.includes('lễ') || event.title.includes('Lễ') ||
-                            event.title.includes('Quốc khánh') || event.title.includes('Tết');
+            event.isHoliday =
+                event.title.includes('lễ') ||
+                event.title.includes('Lễ') ||
+                event.title.includes('Quốc khánh') ||
+                event.title.includes('Tết');
+
             event.isUpcoming = eventDate > now;
             event.isCurrentYear = eventDate.getFullYear() === currentYear;
             event.displayDate = eventDate;
+
             event.month = eventDate.toLocaleDateString('vi-VN', { month: 'long' });
             event.day = eventDate.getDate();
             event.year = eventDate.getFullYear();
         });
 
-        // Sort events by date
         this.events.sort((a, b) => new Date(a.date) - new Date(b.date));
     }
 
@@ -115,10 +116,9 @@ class EventsManager {
         this.currentFilter = filter;
         this.currentPage = 0;
 
-        // Update active filter button
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
+        document.querySelectorAll('.filter-btn').forEach(btn =>
+            btn.classList.remove('active')
+        );
         document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
 
         this.applyFilters();
@@ -128,6 +128,7 @@ class EventsManager {
     setSearchTerm(term) {
         this.searchTerm = term.toLowerCase();
         this.currentPage = 0;
+
         this.applyFilters();
         this.renderEvents();
     }
@@ -140,7 +141,6 @@ class EventsManager {
     applyFilters() {
         let filtered = [...this.events];
 
-        // Apply category filter
         switch (this.currentFilter) {
             case 'holiday':
                 filtered = filtered.filter(e => e.isHoliday);
@@ -151,12 +151,8 @@ class EventsManager {
             case 'current-year':
                 filtered = filtered.filter(e => e.isCurrentYear);
                 break;
-            default:
-                // 'all' - no additional filtering
-                break;
         }
 
-        // Apply search filter
         if (this.searchTerm) {
             filtered = filtered.filter(event =>
                 event.title.toLowerCase().includes(this.searchTerm) ||
@@ -177,43 +173,39 @@ class EventsManager {
     renderEvents() {
         const startIndex = this.currentPage * this.eventsPerPage;
         const endIndex = startIndex + this.eventsPerPage;
-        const newEvents = this.filteredEvents.slice(startIndex, endIndex);
 
+        const newEvents = this.filteredEvents.slice(startIndex, endIndex);
         this.displayedEvents = this.displayedEvents.concat(newEvents);
 
         const eventsGrid = document.getElementById('eventsGrid');
         const loadMoreContainer = document.getElementById('loadMoreContainer');
         const loadMoreBtn = document.getElementById('loadMoreBtn');
 
-        // Clear grid if this is the first page
         if (this.currentPage === 0) {
             eventsGrid.innerHTML = '';
         }
 
-        // Render new events
         newEvents.forEach(event => {
-            const eventCard = this.createEventCard(event);
-            eventsGrid.appendChild(eventCard);
+            eventsGrid.appendChild(this.createEventCard(event));
         });
 
-        // Update load more button
         if (endIndex >= this.filteredEvents.length) {
             loadMoreContainer.style.display = 'none';
         } else {
             loadMoreContainer.style.display = 'flex';
-            loadMoreBtn.disabled = false;
         }
 
-        // Show message if no events found
         if (this.filteredEvents.length === 0) {
-            eventsGrid.innerHTML = '<div class="no-events">Không tìm thấy sự kiện nào phù hợp với bộ lọc.</div>';
+            eventsGrid.innerHTML =
+                '<div class="no-events">Không tìm thấy sự kiện nào phù hợp.</div>';
             loadMoreContainer.style.display = 'none';
         }
     }
 
     createEventCard(event) {
         const card = document.createElement('div');
-        card.className = `event-card ${event.isHoliday ? 'holiday' : ''} ${event.isUpcoming ? 'upcoming' : ''}`;
+        card.className =
+            `event-card ${event.isHoliday ? 'holiday' : ''} ${event.isUpcoming ? 'upcoming' : ''}`;
 
         const durationText = event.lasting > 0 ? `${event.lasting} phút` : 'Cả ngày';
         const typeText = event.isHoliday ? 'Ngày lễ' : 'Sự kiện';
@@ -258,7 +250,6 @@ class EventsManager {
     }
 }
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new EventsManager();
 });
