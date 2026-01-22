@@ -20,8 +20,6 @@ class EventsManager {
         this.init();
     }
     
-    this.calendarDate = new Date();
-    
     init() {
         this.bindEvents();
         this.fetchEvents();
@@ -394,6 +392,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(title);
     });
 });
+
 
 
 
