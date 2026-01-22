@@ -13,119 +13,17 @@ class EventsManager {
         this.currentFilter = 'all';
         this.searchTerm = '';
 
-        this.API_BASE = "https://api-mvr.vercel.app"; 
-
-        this.calendarDate = new Date();
+        this.API_BASE = "https://api-mvr.vercel.app"; // 🔥 FIX: Web API base
 
         this.init();
     }
-    
+
     init() {
         this.bindEvents();
         this.fetchEvents();
     }
 
-    switchView(view) {
-        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-        document.querySelector(`[data-view="${view}"]`).classList.add('active');
-    
-        if (view === "calendar") {
-            document.getElementById("eventsGrid").style.display = "none";
-            document.getElementById("loadMoreContainer").style.display = "none";
-            document.getElementById("calendarView").style.display = "block";
-            this.renderCalendar();
-        } else {
-            document.getElementById("calendarView").style.display = "none";
-            document.getElementById("eventsGrid").style.display = "grid";
-            this.renderEvents();
-        }
-    }
-    
-    changeMonth(offset) {
-        this.calendarDate.setMonth(this.calendarDate.getMonth() + offset);
-        this.renderCalendar();
-    }
-    
-    renderCalendar() {
-        const daysContainer = document.getElementById("calendarDays");
-        daysContainer.innerHTML = "";
-    
-        const year = this.calendarDate.getFullYear();
-        const month = this.calendarDate.getMonth();
-    
-        document.getElementById("calendarTitle").textContent =
-            `Tháng ${month + 1}, ${year}`;
-    
-        const firstDay = new Date(year, month, 1).getDay();
-        const lastDate = new Date(year, month + 1, 0).getDate();
-    
-        // Blank days
-        for (let i = 0; i < firstDay; i++) {
-            const blank = document.createElement("div");
-            daysContainer.appendChild(blank);
-        }
-    
-        for (let d = 1; d <= lastDate; d++) {
-            const dayEl = document.createElement("div");
-            dayEl.className = "calendar-day";
-    
-            const today = new Date();
-            if (
-                d === today.getDate() &&
-                month === today.getMonth() &&
-                year === today.getFullYear()
-            ) {
-                dayEl.classList.add("today");
-            }
-    
-            const eventsToday = this.events.filter(e => {
-                const ed = new Date(e.date);
-                return ed.getDate() === d && ed.getMonth() === month && ed.getFullYear() === year;
-            });
-    
-            if (eventsToday.some(e => e.isHoliday)) {
-                dayEl.classList.add("holiday");
-            }
-    
-            if (eventsToday.some(e => e.isUpcoming)) {
-                dayEl.classList.add("upcoming");
-            }
-    
-            dayEl.innerHTML = `
-                <div class="day-number">${d}</div>
-                ${eventsToday.length > 0 ? `<div class="mini-dot"></div>` : ""}
-            `;
-    
-            dayEl.addEventListener("click", () => {
-                if (eventsToday.length === 1) {
-                    this.openEventModal(eventsToday[0]);
-                } else if (eventsToday.length > 1) {
-                    let list = eventsToday.map(e => "• " + e.title).join("\n");
-                    alert("Sự kiện trong ngày:\n\n" + list);
-                }
-            });
-    
-            daysContainer.appendChild(dayEl);
-        }
-    }
-
-
     bindEvents() {
-        // Switch view
-        document.querySelectorAll('.view-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                this.switchView(e.target.dataset.view);
-            });
-        });
-        
-        // Calendar navigation
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            this.changeMonth(-1);
-        });
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            this.changeMonth(1);
-        });
-
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 this.setFilter(e.target.dataset.filter);
@@ -179,7 +77,6 @@ class EventsManager {
             this.showError(error.message);
         }
     }
-    
 
     processEvents() {
         this.events.forEach(event => {
@@ -307,9 +204,6 @@ class EventsManager {
 
     createEventCard(event) {
         const card = document.createElement('div');
-        card.addEventListener('click', () => {
-            this.openEventModal(event);
-        });
         card.className =
             `event-card ${event.isHoliday ? 'holiday' : ''} ${event.isUpcoming ? 'upcoming' : ''}`;
 
@@ -354,45 +248,8 @@ class EventsManager {
         document.getElementById('errorContainer').style.display = 'flex';
         document.getElementById('errorMessage').textContent = message;
     }
-    
-    openEventModal(event) {
-        const modal = document.getElementById('eventModal');
+}
 
-        document.getElementById('modalTitle').textContent = event.title;
-        document.getElementById('modalDate').textContent =
-            `${event.day} ${event.month}, ${event.year}`;
-        document.getElementById('modalDescription').textContent = event.description;
-
-        document.getElementById('modalType').textContent =
-            event.isHoliday ? "Ngày lễ" : "Sự kiện";
-
-        document.getElementById('modalDuration').textContent =
-            event.lasting > 0 ? `${event.lasting} phút` : "Cả ngày";
-
-        modal.classList.add('active');
-    }
-
-    closeModal() {
-        document.getElementById('eventModal').classList.remove('active');
-    }
-} // ⬅ hết class ở đây
-
-// KHÔNG được bỏ hai hàm ra ngoài class nhé
 document.addEventListener('DOMContentLoaded', () => {
-    const manager = new EventsManager();
-
-    // gắn nút đóng modal
-    document.getElementById('modalClose').addEventListener('click', () => {
-        manager.closeModal();
-    });
-
-    // copy nút
-    document.getElementById('modalCopy').addEventListener('click', () => {
-        const title = document.getElementById('modalTitle').textContent;
-        navigator.clipboard.writeText(title);
-    });
+    new EventsManager();
 });
-
-
-
-
