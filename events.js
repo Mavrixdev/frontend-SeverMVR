@@ -28,6 +28,21 @@ class EventsManager {
     }
 
     bindEvents() {
+        // Switch view
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.switchView(e.target.dataset.view);
+            });
+        });
+        
+        // Calendar navigation
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            this.changeMonth(-1);
+        });
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            this.changeMonth(1);
+        });
+
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 this.setFilter(e.target.dataset.filter);
@@ -293,4 +308,5 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(title);
     });
 });
+
 
