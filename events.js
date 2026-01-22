@@ -27,6 +27,91 @@ class EventsManager {
         this.fetchEvents();
     }
 
+    switchView(view) {
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector(`[data-view="${view}"]`).classList.add('active');
+    
+        if (view === "calendar") {
+            document.getElementById("eventsGrid").style.display = "none";
+            document.getElementById("loadMoreContainer").style.display = "none";
+            document.getElementById("calendarView").style.display = "block";
+            this.renderCalendar();
+        } else {
+            document.getElementById("calendarView").style.display = "none";
+            document.getElementById("eventsGrid").style.display = "grid";
+            this.renderEvents();
+        }
+    }
+    
+    changeMonth(offset) {
+        this.calendarDate.setMonth(this.calendarDate.getMonth() + offset);
+        this.renderCalendar();
+    }
+    
+    renderCalendar() {
+        const daysContainer = document.getElementById("calendarDays");
+        daysContainer.innerHTML = "";
+    
+        const year = this.calendarDate.getFullYear();
+        const month = this.calendarDate.getMonth();
+    
+        document.getElementById("calendarTitle").textContent =
+            `Tháng ${month + 1}, ${year}`;
+    
+        const firstDay = new Date(year, month, 1).getDay();
+        const lastDate = new Date(year, month + 1, 0).getDate();
+    
+        // Blank days
+        for (let i = 0; i < firstDay; i++) {
+            const blank = document.createElement("div");
+            daysContainer.appendChild(blank);
+        }
+    
+        for (let d = 1; d <= lastDate; d++) {
+            const dayEl = document.createElement("div");
+            dayEl.className = "calendar-day";
+    
+            const today = new Date();
+            if (
+                d === today.getDate() &&
+                month === today.getMonth() &&
+                year === today.getFullYear()
+            ) {
+                dayEl.classList.add("today");
+            }
+    
+            const eventsToday = this.events.filter(e => {
+                const ed = new Date(e.date);
+                return ed.getDate() === d && ed.getMonth() === month && ed.getFullYear() === year;
+            });
+    
+            if (eventsToday.some(e => e.isHoliday)) {
+                dayEl.classList.add("holiday");
+            }
+    
+            if (eventsToday.some(e => e.isUpcoming)) {
+                dayEl.classList.add("upcoming");
+            }
+    
+            dayEl.innerHTML = `
+                <div class="day-number">${d}</div>
+                ${eventsToday.length > 0 ? `<div class="mini-dot"></div>` : ""}
+            `;
+    
+            dayEl.addEventListener("click", () => {
+                if (eventsToday.length === 1) {
+                    this.openEventModal(eventsToday[0]);
+                } else if (eventsToday.length > 1) {
+                    let list = eventsToday.map(e => "• " + e.title).join("\n");
+                    alert("Sự kiện trong ngày:\n\n" + list);
+                }
+            });
+    
+            daysContainer.appendChild(dayEl);
+        }
+    }
+
+
     bindEvents() {
         // Switch view
         document.querySelectorAll('.view-btn').forEach(btn => {
@@ -96,6 +181,7 @@ class EventsManager {
             this.showError(error.message);
         }
     }
+    
 
     processEvents() {
         this.events.forEach(event => {
@@ -308,5 +394,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(title);
     });
 });
+
 
 
