@@ -204,6 +204,9 @@ class EventsManager {
 
     createEventCard(event) {
         const card = document.createElement('div');
+        card.addEventListener('click', () => {
+            this.openEventModal(event);
+        });
         card.className =
             `event-card ${event.isHoliday ? 'holiday' : ''} ${event.isUpcoming ? 'upcoming' : ''}`;
 
@@ -253,3 +256,4 @@ class EventsManager {
 document.addEventListener('DOMContentLoaded', () => {
     new EventsManager();
 });
+
