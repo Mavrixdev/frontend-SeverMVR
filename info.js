@@ -25,51 +25,49 @@ document.addEventListener('DOMContentLoaded', async () => {
       <h1 class="name">${d.name}</h1>
       <p class="bio">${d.bio}</p>
 
-      <div class="contact">
-        <h2>Liên hệ</h2>
+      <div class="contact-icons">
 
-        ${d.contact.email ? `
-        <button class="contact-btn" onclick="window.location.href='mailto:${d.contact.email}'">
-            <span class="btn-text">📧 ${d.contact.email}</span>
-        </button>` : ''}
-
-        <div class="contact-icons">
-
-          ${d.contact.email ? `
+          <!-- Email -->
           <a href="mailto:${d.contact.email}" class="icon-btn email-btn" title="Email">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor">
-              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Z"/>
+            <svg viewBox="0 0 24 24">
+              <path d="M4 4h16v16H4z"/>
+              <path d="M4 7l8 6 8-6"/>
             </svg>
-          </a>` : ''}
-
-          ${d.contact.phone ? `
-          <a href="tel:${d.contact.phone}" class="icon-btn phone-btn" title="Phone">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-              <path d="M11 1a1 1 0 0 1 1 1v12H5V2a1 1 0 0 1 1-1z"/>
+          </a>
+        
+          <!-- Phone -->
+          <a href="tel:${d.contact.phone}" class="icon-btn phone-btn" title="Gọi điện">
+            <svg viewBox="0 0 24 24">
+              <path d="M6 2h12v20H6z"/>
+              <path d="M8 4h8v12H8z"/>
+              <path d="M10 18h4"/>
             </svg>
-          </a>` : ''}
-
-          ${d.contact.facebook ? `
+          </a>
+        
+          <!-- Facebook -->
           <a href="${d.contact.facebook}" target="_blank" class="icon-btn facebook-btn" title="Facebook">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-              <path d="M16 8.049c0-4.446-3.58-8.05-8-8.05S0 3.603 0 8.05C0 12.067 2.93 15.397 6.75 16v-5.625H4.72V8.05H6.75V6.275c0-2.017 1.2-3.131 3.02-3.131.88 0 1.79.157 1.79.157v1.98H10.55c-.99 0-1.3.621-1.3 1.258V8.05H11.5l-.35 2.326H9.25V16c3.82-.603 6.75-3.933 6.75-7.951Z"/>
+            <svg viewBox="0 0 24 24">
+              <path d="M14 2h4v4h-4v4h4v4h-4v8h-4V14H6v-4h4V6a4 4 0 0 1 4-4z"/>
             </svg>
-          </a>` : ''}
-
-          ${d.contact.github ? `
+          </a>
+        
+          <!-- GitHub -->
           <a href="${d.contact.github}" target="_blank" class="icon-btn github-btn" title="GitHub">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59"/>
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2a10 10 0 0 0-3 19.5c.5 0 .7-.3.7-.6v-2c-3 1-3.5-1.5-3.5-1.5-.5-1.2-1.2-1.6-1.2-1.6C4 15 5 15 5 15c1 .1 1.6 1 1.6 1 1 1.6 2.7 1.1 3.3.8a3 3 0 0 1 .9-1.7C8.6 15 6 13.8 6 10.5A4 4 0 0 1 7 8c-.2-.6 0-1.3.2-2 0 0 1.1-.4 3 1a10.3 10.3 0 0 1 5.6 0c1.9-1.4 3-1 3-1 .2.7.4 1.4.2 2a4 4 0 0 1 1 2.5c0 3.2-2.7 4.5-5.3 4.8a3 3 0 0 1 .8 2.2v3c0 .3.2.6.7.6A10 10 0 0 0 12 2z"/>
             </svg>
-          </a>` : ''}
-
-          ${d.contact.zalo ? `
+          </a>
+        
+          <!-- Zalo -->
           <a href="${d.contact.zalo}" target="_blank" class="icon-btn zalo-btn" title="Zalo">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
-              <path d="M82.6 380.9c..."/>
+            <svg viewBox="0 0 24 24">
+              <path d="M4 3h16v18H4z"/>
+              <path d="M8 8h8M8 12h8M8 16h5"/>
             </svg>
-          </a>` : ''}
+          </a>
+        
         </div>
+
       </div>
 
       <div class="skills">
@@ -90,3 +88,4 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>`;
   }
 });
+
