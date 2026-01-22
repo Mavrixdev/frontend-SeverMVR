@@ -7,34 +7,17 @@
     <link rel="stylesheet" href="events.css">
 </head>
 <body>
-    <button id="toggleTheme" class="floating-theme-btn">🌙</button>
-    <!-- EVENT DETAILS POPUP -->
-    <div class="event-modal" id="eventModal">
-        <div class="event-modal-content">
-            <button class="modal-close" id="modalClose">✕</button>
-            <h2 class="modal-title" id="modalTitle"></h2>
-            <p class="modal-date" id="modalDate"></p>
-            <p class="modal-description" id="modalDescription"></p>
-
-            <div class="modal-meta">
-                <span id="modalType"></span>
-                <span id="modalDuration"></span>
-            </div>
-
-            <button class="modal-copy-btn" id="modalCopy">Copy sự kiện</button>
-        </div>
-    </div>
-
     <!-- Background Gradient -->
     <div class="bg-gradient"></div>
 
+    <!-- Main Container -->
     <div class="container">
 
         <!-- Header -->
         <header class="header">
             <div class="logo-container">
                 <div class="logo">
-                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="4" y="4" width="24" height="24" rx="6" stroke="#3a7afe" stroke-width="2"/>
                         <path d="M12 16L14 18L20 12" stroke="#3a7afe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -52,12 +35,16 @@
         <!-- Main Content -->
         <main class="main-content">
 
-            <!-- Header stats -->
+            <!-- Events Header Section -->
             <section class="events-header-section">
                 <div class="glass-card">
-                    <h2 class="section-title"><span class="icon">📅</span> Lịch Sự Kiện Việt Nam</h2>
-                    <p class="section-description">Các ngày lễ, sự kiện, ngày đặc biệt trong năm</p>
-
+                    <h2 class="section-title">
+                        <span class="icon">📅</span>
+                        Lịch Sự Kiện Việt Nam
+                    </h2>
+                    <p class="section-description">
+                        Danh sách các ngày lễ, sự kiện quan trọng và kỳ nghỉ của Việt Nam
+                    </p>
                     <div class="stats-container">
                         <div class="stat-item">
                             <span class="stat-number" id="totalEvents">0</span>
@@ -75,78 +62,52 @@
                 </div>
             </section>
 
+            <!-- Events List Section -->
             <section class="events-section">
-                
-                <!-- Controls -->
                 <div class="events-controls">
-                    <div class="view-switch">
-                        <button class="view-btn active" data-view="list">Danh sách</button>
-                        <button class="view-btn" data-view="calendar">Lịch</button>
-                    </div>
-
                     <div class="filter-buttons">
                         <button class="filter-btn active" data-filter="all">Tất cả</button>
                         <button class="filter-btn" data-filter="holiday">Ngày lễ</button>
                         <button class="filter-btn" data-filter="upcoming">Sắp tới</button>
                         <button class="filter-btn" data-filter="current-year">Năm nay</button>
                     </div>
-
                     <div class="search-container">
                         <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm sự kiện...">
                         <button id="clearSearch" class="clear-search-btn">✕</button>
                     </div>
                 </div>
 
-                <!-- ⭐ FIX CALENDAR FULL ⭐ -->
-                <div class="calendar-wrapper" id="calendarView" style="display:none;">
-
-                    <div class="calendar-header">
-                        <button id="prevMonth" class="month-btn">◀</button>
-                        <h3 id="calendarTitle"></h3>
-                        <button id="nextMonth" class="month-btn">▶</button>
-                    </div>
-
-                    <!-- Header of week -->
-                    <div class="calendar-grid">
-                        <div class="calendar-day-name">CN</div>
-                        <div class="calendar-day-name">T2</div>
-                        <div class="calendar-day-name">T3</div>
-                        <div class="calendar-day-name">T4</div>
-                        <div class="calendar-day-name">T5</div>
-                        <div class="calendar-day-name">T6</div>
-                        <div class="calendar-day-name">T7</div>
-                    </div>
-
-                    <!-- Days grid -->
-                    <div class="calendar-grid" id="calendarDays"></div>
-                </div>
-
-                <!-- Loading -->
+                <!-- Loading State -->
                 <div class="loading-container" id="loadingContainer">
                     <div class="spinner"></div>
-                    <p class="loading-text">Đang tải dữ liệu...</p>
+                    <p class="loading-text">Đang tải danh sách sự kiện...</p>
                 </div>
 
-                <!-- Error -->
+                <!-- Error State -->
                 <div class="error-container" id="errorContainer">
                     <div class="error-icon">⚠️</div>
+                    <h3 class="error-title">Không thể tải dữ liệu</h3>
                     <p class="error-message" id="errorMessage"></p>
                     <button id="retryBtn" class="retry-btn">Thử lại</button>
                 </div>
 
-                <!-- Event List -->
-                <div class="events-grid" id="eventsGrid"></div>
-
-                <div class="load-more-container" id="loadMoreContainer">
-                    <button id="loadMoreBtn" class="load-more-btn">
-                        Xem thêm <span class="load-icon">▼</span>
-                    </button>
+                <!-- Events Grid -->
+                <div class="events-grid" id="eventsGrid">
+                    <!-- Events will be dynamically inserted here -->
                 </div>
 
+                <!-- Load More Button -->
+                <div class="load-more-container" id="loadMoreContainer">
+                    <button id="loadMoreBtn" class="load-more-btn">
+                        <span>Xem thêm</span>
+                        <span class="load-icon">▼</span>
+                    </button>
+                </div>
             </section>
 
         </main>
 
+        <!-- Footer -->
         <footer class="footer">
             <p>Made with ❤️ by Mavrixdev | API HOME</p>
         </footer>
@@ -154,18 +115,5 @@
     </div>
 
     <script src="events.js"></script>
-    <script>
-        const btn = document.getElementById("toggleTheme");
-    
-        btn.addEventListener("click", () => {
-            document.body.classList.toggle("dark");
-    
-            btn.textContent = 
-                document.body.classList.contains("dark") ? "☀️" : "🌙";
-        });
-    </script>
-
 </body>
 </html>
-
-
