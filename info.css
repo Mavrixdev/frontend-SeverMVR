@@ -1,83 +1,378 @@
-/* ================================
-   LIGHT MODE iOS 26
-================================ */
+/* =========================================================
+   iOS 26 ULTRAGLASS PROFILE CARD
+   Premium Version – Designed by ChatGPT for Mậu 💗
+   Effects: Ultraglass, Parallax Glow, Floating Elements,
+            NeoShadow, Fluid Hover, Dynamic Gradients
+   ~ 350+ LINES OF BEAUTY ~
+========================================================= */
 
-body[data-theme="light"] {
-    background: linear-gradient(120deg, #f4f7fb 0%, #ffffff 100%);
-    color: #111;
-}
+:root {
+  --primary: #7de2c7;
+  --accent: #5b8cff;
+  --text-light: #e7f0ff;
+  --text-dark: #1c1c1e;
 
-/* Card */
-body[data-theme="light"] .info-card {
-    background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(180,180,180,0.25);
-    backdrop-filter: blur(22px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
+  --glass-dark: rgba(24, 34, 54, 0.82);
+  --glass-light: rgba(255, 255, 255, 0.7);
 
-/* Avatar border */
-body[data-theme="light"] .avatar {
-    border-color: #fff;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-}
+  --border-dark: rgba(125, 226, 199, 0.18);
+  --border-light: rgba(0, 0, 0, 0.08);
 
-/* Name */
-body[data-theme="light"] .name {
-    color: #22304a;
-    text-shadow: none;
-}
+  --radius-card: 26px;
+  --radius-btn: 18px;
 
-/* Text */
-body[data-theme="light"] .bio,
-body[data-theme="light"] .contact a,
-body[data-theme="light"] .website a,
-body[data-theme="light"] .location {
-    color: #444;
+  --shadow-soft: 0 6px 24px rgba(0,0,0,0.18);
+  --shadow-hard: 0 12px 38px rgba(0,0,0,0.28);
+
+  --glow-primary: 0 0 25px rgba(125,226,199,0.8);
+  --glow-accent: 0 0 25px rgba(91,140,255,0.8);
 }
 
-/* Title */
-body[data-theme="light"] h2 {
-    -webkit-text-fill-color: #22304a;
-    background: none;
-    color: #22304a;
+/* =========================================================
+   GLOBAL BACKGROUND
+========================================================= */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  background: linear-gradient(140deg, #10151f 0%, #22304a 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
 }
 
-/* Button */
-body[data-theme="light"] .contact-btn {
-    background: rgba(0,0,0,0.05);
-    border-color: #5b8cff;
-    color: #22304a;
-}
-body[data-theme="light"] .contact-btn:hover {
-    background: rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+/* =========================================================
+   ANIMATED RIBBON BG (Flow Ribbon)
+========================================================= */
+
+.flow-ribbon {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, rgba(125,226,199,0.12), transparent 70%),
+              radial-gradient(circle at 70% 70%, rgba(91,140,255,0.12), transparent 70%);
+  filter: blur(90px);
+  animation: ribbonFloat 12s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* Icon Buttons */
-body[data-theme="light"] .icon-btn {
-    background: rgba(0,0,0,0.05);
-    border-color: #5b8cff;
-    color: #22304a;
-}
-body[data-theme="light"] .icon-btn:hover {
-    background: rgba(0,0,0,0.12);
-    transform: translateY(-5px) scale(1.08);
+@keyframes ribbonFloat {
+  0% { transform: translate(-10%, -10%) scale(1.1); }
+  100% { transform: translate(10%, 10%) scale(1.25); }
 }
 
-/* Skills */
-body[data-theme="light"] .skills li {
-    background: rgba(0,0,0,0.05);
-    border-color: rgba(0,0,0,0.15);
-    color: #22304a;
-}
-body[data-theme="light"] .skills li:hover {
-    background: rgba(0,0,0,0.1);
-    transform: translateY(-4px);
+/* =========================================================
+   PROFILE CARD
+========================================================= */
+
+.info-container {
+  position: relative;
+  z-index: 1;
 }
 
-/* Toggle Button */
-body[data-theme="light"] .theme-toggle-btn {
-    background: rgba(0,0,0,0.1);
-    color: #111;
-    border-color: rgba(0,0,0,0.25);
+.info-card {
+  width: 420px;
+  max-width: 92%;
+  background: var(--glass-dark);
+  border-radius: var(--radius-card);
+  padding: 2.5rem 2rem;
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1.6px solid var(--border-dark);
+  box-shadow: var(--shadow-soft);
+  animation: fadeUp 1s cubic-bezier(.23,1,.32,1) both;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating highlight inside card */
+.info-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 60% 20%, rgba(125,226,199,0.14), transparent 70%);
+  opacity: 0;
+  animation: glowPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulse {
+  0% { opacity: .3; }
+  100% { opacity: .8; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   AVATAR AREA
+========================================================= */
+
+.avatar-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+/* Animated ring behind avatar */
+.avatar-wrap::before {
+  content: "";
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+      rgba(125,226,199,0.25) 0%,
+      rgba(91,140,255,0.25) 60%,
+      transparent 100%);
+  animation: spinSlow 9s linear infinite;
+  filter: blur(12px);
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.avatar {
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255,255,255,0.1);
+  box-shadow: var(--shadow-hard);
+  transition: 0.4s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.08) rotate(-3deg);
+  box-shadow: 0 14px 34px rgba(0,0,0,0.38);
+}
+
+/* =========================================================
+   NAME + BIO TEXT
+========================================================= */
+
+.name {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 1.2px;
+  margin-bottom: 0.4rem;
+  text-shadow: var(--glow-primary);
+}
+
+.bio {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1.15rem;
+  margin-bottom: 1.3rem;
+  animation: fadeIn 1.5s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* =========================================================
+   SECTIONS TITLES
+========================================================= */
+
+.contact h2, .skills h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  background: linear-gradient(90deg, #7de2c7, #5b8cff, #7de2c7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glowShift 4s ease infinite;
+}
+
+@keyframes glowShift {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(125,226,199,0.25)); }
+  50% { filter: drop-shadow(0 0 8px rgba(91,140,255,0.35)); }
+}
+
+/* =========================================================
+   MAIN BUTTON
+========================================================= */
+
+.contact-btn {
+  width: 100%;
+  padding: 0.9rem 1.4rem;
+  border-radius: var(--radius-btn);
+  border: 2px solid var(--primary);
+  background: linear-gradient(135deg,
+      rgba(125,226,199,0.12),
+      rgba(91,140,255,0.12)
+  );
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(125,226,199,0.15);
+  transition: 0.3s ease;
+}
+
+.contact-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(125,226,199,0.25);
+}
+
+.contact-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(125,226,199,0.4),
+      transparent);
+  left: -200%;
+  transition: 0.6s ease;
+}
+
+.contact-btn:hover::before {
+  left: 200%;
+}
+
+/* =========================================================
+   ICON BUTTONS (EMAIL / FB / GITHUB / ZALO)
+========================================================= */
+
+.contact-icons {
+  margin-top: 0.8rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.icon-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  background: rgba(125,226,199,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(125,226,199,0.15);
+  position: relative;
+  transition: 0.3s ease;
+}
+
+.icon-btn:hover {
+  transform: translateY(-6px) scale(1.1);
+  box-shadow: 0 10px 30px rgba(91,140,255,0.35);
+}
+
+/* Tooltip */
+.icon-btn::before {
+  content: attr(title);
+  font-size: 0.75rem;
+  color: var(--text-light);
+  position: absolute;
+  bottom: -28px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.icon-btn:hover::before {
+  bottom: -32px;
+  opacity: 1;
+}
+
+/* =========================================================
+   SKILLS TAGS
+========================================================= */
+
+.skills ul {
+  padding: 0;
+  list-style: none;
+}
+
+.skills li {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  background: rgba(91,140,255,0.15);
+  border-radius: 14px;
+  margin: 0.25rem;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  border: 1px solid rgba(125,226,199,0.2);
+  box-shadow: 0 3px 10px rgba(125,226,199,0.1);
+  transition: 0.25s ease;
+  animation: popIn 0.6s ease both;
+}
+
+.skills li:hover {
+  transform: translateY(-4px);
+  background: rgba(125,226,199,0.3);
+}
+
+/* Stagger animation */
+.skills li:nth-child(2) { animation-delay: 0.05s; }
+.skills li:nth-child(3) { animation-delay: 0.1s; }
+.skills li:nth-child(4) { animation-delay: 0.15s; }
+
+@keyframes popIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* =========================================================
+   LOCATION + WEBSITE
+========================================================= */
+
+.location {
+  color: var(--accent);
+  margin-top: 0.8rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.website a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.website a:hover {
+  text-shadow: 0 0 8px var(--primary);
+}
+
+/* =========================================================
+   LOADER
+========================================================= */
+
+.loader {
+  margin: 2rem auto;
+  border: 6px solid rgba(255,255,255,0.1);
+  border-top: 6px solid var(--primary);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 480px) {
+  .info-card { padding: 1.6rem 1rem; }
+  .avatar { width: 100px; height: 100px; }
+  .name { font-size: 1.6rem; }
 }
