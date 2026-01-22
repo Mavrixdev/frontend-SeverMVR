@@ -4,9 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Giới thiệu cá nhân</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="info.css?v=9999">
+  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="info.css?v=10">
 </head>
+<!-- Toggle theme nếu muốn -->
+<script>
+  function toggleTheme() {
+    document.body.dataset.theme =
+      document.body.dataset.theme === "light" ? "dark" : "light";
+  }
+</script>
+
 <body>
   <div class="info-container">
     <div class="flow-ribbon" aria-hidden="true"></div>
@@ -17,5 +25,6 @@
   <script src="info.js"></script>
 </body>
 </html>
+
 
 
