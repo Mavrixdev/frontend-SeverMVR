@@ -1,202 +1,158 @@
 /* ========================================
-   RESET + BASE
+   BASE IMPORT
 ======================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
-}
-
-body {
-    background: #f5f7ff;
-    color: #1c1c1e;
-    -webkit-font-smoothing: antialiased;
-}
-
-body.dark {
-    background: #000000;
-    color: #ffffff;
-}
-
-/* Gradient background */
-.bg-gradient {
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at 20% 20%, #a5b4fc40, transparent),
-                radial-gradient(circle at 80% 80%, #93c5fd30, transparent);
-    z-index: -1;
-}
-
-/* Container */
-.container {
-    width: 95%;
-    max-width: 1100px;
-    margin: auto;
-    padding-bottom: 80px;
-}
-
+@import url('styles.css');
 
 /* ========================================
-   HEADER
+   HEADER + STATS
 ======================================== */
-.header {
-    padding: 20px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+.events-header-section {
+    margin-bottom: var(--spacing-xl);
+    animation: fadeInUp 0.6s ease;
 }
 
-.nav-link {
-    margin-left: 16px;
-    text-decoration: none;
-    color: #444;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 12px;
-    transition: .2s;
+.events-header-section .glass-card {
+    border: 2px solid rgba(58, 122, 254, 0.2);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
 }
 
-.nav-link:hover {
-    background: #e5e7eb;
-}
-
-.nav-link.active {
-    background: #3b82f6;
-    color: white;
-}
-
-
-/* ========================================
-   GLASS CARD
-======================================== */
-.glass-card {
-    background: rgba(255,255,255,0.45);
-    padding: 25px;
-    border-radius: 20px;
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.6);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-}
-
-
-/* ========================================
-   STATS SECTION
-======================================== */
 .stats-container {
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
 }
 
 .stat-item {
-    flex: 1;
     text-align: center;
-    padding: 16px;
-    border-radius: 15px;
-    background: #ffffff80;
-    backdrop-filter: blur(8px);
-    border: 1px solid #ececec;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
+    transition: 0.25s;
+}
+
+.stat-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
 }
 
 .stat-number {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     font-weight: 700;
-    color: #2563eb;
+    color: var(--primary);
+    margin-bottom: var(--spacing-xs);
 }
 
 .stat-label {
-    margin-top: 5px;
-    font-size: 0.9rem;
-    color: #6b7280;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 600;
 }
 
-
 /* ========================================
-   CONTROLS
+   CONTROLS (FILTER + SEARCH + VIEW)
 ======================================== */
 
 .events-controls {
-    margin-top: 25px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
     justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
 }
 
-.view-switch .view-btn,
+.filter-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
 .filter-btn {
-    background: #ffffff80;
-    border: 1px solid #e5e5e5;
-    padding: 10px 18px;
-    border-radius: 12px;
-    cursor: pointer;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    color: var(--text-primary);
+    font-size: .9rem;
     font-weight: 600;
-    transition: .2s;
+    cursor: pointer;
+    transition: 0.25s;
 }
 
-.view-btn.active,
 .filter-btn.active {
-    background: #3b82f6;
-    border-color: #2563eb;
-    color: white;
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary-hover);
+    box-shadow: 0 0 20px rgba(58,122,254,0.3);
 }
 
-.view-btn:hover,
 .filter-btn:hover {
-    background: #e5e7eb;
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+
+.search-container {
+    position: relative;
+    min-width: 250px;
 }
 
 .search-input {
-    padding: 12px 40px 12px 14px;
-    border-radius: 12px;
-    border: 1px solid #d1d5db;
-    width: 260px;
+    width: 100%;
+    padding: var(--spacing-md);
+    padding-right: var(--spacing-xl);
+    background: var(--glass-bg);
+    border: 2px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
 }
 
 .clear-search-btn {
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 9px;
     border: none;
     background: none;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     cursor: pointer;
     display: none;
 }
 
-
 /* ========================================
-   LIST VIEW
+   LIST VIEW (EVENT CARDS)
 ======================================== */
+
 .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 20px;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .event-card {
+    background: var(--glass-bg);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--glass-border);
     padding: 20px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(12px);
-    border: 1px solid #eeeeee80;
     cursor: pointer;
-    transition: .25s ease;
+    transition: 0.25s;
 }
 
 .event-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-color: var(--primary);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.25);
 }
 
 .event-card.holiday {
-    border-left: 4px solid #10b981;
+    border-left: 4px solid var(--success);
 }
 
 .event-card.upcoming {
-    border-left: 4px solid #f59e0b;
+    border-left: 4px solid var(--warning);
 }
 
 .event-date {
@@ -206,32 +162,29 @@ body.dark {
 }
 
 .event-day {
-    font-size: 2.8rem;
+    font-size: 3rem;
     font-weight: 700;
-    color: #2563eb;
-}
-
-.event-month-year {
-    opacity: 0.8;
+    color: var(--primary);
 }
 
 .event-title {
-    margin-top: 10px;
     font-size: 1.3rem;
+    margin-top: 10px;
     font-weight: 600;
 }
 
 .event-description {
-    margin-top: 6px;
-    color: #6b7280;
-    height: 45px;
+    color: var(--text-secondary);
+    margin: 10px 0;
+    height: 50px;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
-
 
 /* ========================================
    CALENDAR VIEW
 ======================================== */
+
 .calendar-wrapper {
     display: none;
     margin-top: 20px;
@@ -240,21 +193,21 @@ body.dark {
 .calendar-header {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 18px;
-    margin-bottom: 18px;
 }
 
 .month-btn {
-    padding: 8px 14px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
-    background: #fff;
+    background: var(--glass-bg);
+    padding: 7px 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--glass-border);
     cursor: pointer;
-    font-weight: 600;
+    transition: 0.2s;
 }
 
 .month-btn:hover {
-    background: #2563eb;
+    background: var(--primary);
     color: white;
 }
 
@@ -264,6 +217,7 @@ body.dark {
 }
 
 .calendar-grid {
+    margin-top: 10px;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 6px;
@@ -271,64 +225,73 @@ body.dark {
 
 .calendar-day-name {
     text-align: center;
-    font-weight: 600;
-    background: #ffffff70;
     padding: 8px 0;
-    border-radius: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    border: 1px solid var(--glass-border);
+    font-weight: 600;
+    color: var(--text-secondary);
 }
 
-#calendarDays div {
-    background: #ffffffb0;
+#calendarDays > div {
+    background: var(--glass-bg);
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--glass-border);
     padding: 10px;
-    border-radius: 12px;
     min-height: 70px;
     cursor: pointer;
     position: relative;
     transition: .2s;
 }
 
-#calendarDays div:hover {
+#calendarDays > div:hover {
     transform: scale(1.04);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border-color: var(--primary);
 }
 
 .today {
-    border: 2px solid #2563eb;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(58,122,254,0.4);
 }
 
 .holiday {
-    background: #dcfce7;
-    border: 1px solid #10b981;
+    background: rgba(255, 0, 0, 0.08);
+    border-color: rgba(255, 0, 0, 0.3);
 }
 
 .upcoming {
-    background: #fef3c7;
-    border: 1px solid #f59e0b;
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.day-number {
+    font-size: 1.1rem;
+    font-weight: 700;
 }
 
 .mini-dot {
     width: 7px;
     height: 7px;
-    background: #2563eb;
+    background: var(--primary);
     border-radius: 50%;
     position: absolute;
     bottom: 6px;
     right: 6px;
 }
 
-
 /* ========================================
-   MODAL
+   MODAL POPUP
 ======================================== */
+
 .event-modal {
     position: fixed;
     inset: 0;
+    background: rgba(0,0,0,0.55);
     display: none;
-    justify-content: center;
     align-items: center;
-    background: rgba(0,0,0,0.45);
-    backdrop-filter: blur(8px);
-    z-index: 50;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    z-index: 9999;
 }
 
 .event-modal.active {
@@ -336,13 +299,13 @@ body.dark {
 }
 
 .event-modal-content {
-    width: 92%;
-    max-width: 420px;
-    background: rgba(255,255,255,0.85);
+    background: var(--glass-bg);
     padding: 25px;
-    border-radius: 20px;
-    backdrop-filter: blur(18px);
-    animation: fadeUp .25s ease;
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 450px;
+    border: 2px solid var(--glass-border);
+    animation: fadeInScale .25s ease;
     position: relative;
 }
 
@@ -350,55 +313,52 @@ body.dark {
     position: absolute;
     right: 18px;
     top: 18px;
-    font-size: 1.4rem;
     background: none;
     border: none;
+    font-size: 1.4rem;
     cursor: pointer;
 }
 
 .modal-copy-btn {
-    margin-top: 16px;
     width: 100%;
     padding: 10px;
-    border-radius: 12px;
-    background: #2563eb;
-    color: white;
-    font-weight: 600;
+    background: var(--primary);
+    color: #fff;
+    margin-top: 15px;
     border: none;
+    border-radius: var(--radius-md);
     cursor: pointer;
 }
 
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+/* ========================================
+   LOADING + ERROR
+======================================== */
+
+.loading-container,
+.error-container {
+    text-align: center;
+    margin-top: 40px;
 }
 
-/* Floating iOS-style Theme Button (bottom-right) */
-.floating-theme-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--glass-bg);
-    border: 2px solid var(--glass-border);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 12px 14px;
-    border-radius: 50%;
-    font-size: 1.25rem;
-    cursor: pointer;
-    z-index: 9999;
-    transition: 0.25s ease;
-    color: var(--text-primary);
-}
-
-.floating-theme-btn:hover {
-    transform: scale(1.1);
-    border-color: var(--primary);
-    box-shadow: 0 0 18px rgba(58,122,254,0.4);
-}
-
-body.dark .floating-theme-btn {
-    background: rgba(255,255,255,0.15);
-    border-color: rgba(255,255,255,0.25);
+.retry-btn {
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    background: var(--primary);
+    border: none;
     color: white;
+    cursor: pointer;
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes fadeInUp {
+    from { opacity:0; transform: translateY(20px); }
+    to { opacity:1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+    from { opacity:0; transform: scale(.85); }
+    to { opacity:1; transform: scale(1); }
 }
