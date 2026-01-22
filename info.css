@@ -264,9 +264,3 @@
   .name { font-size: 1.4rem; }
   .bio { font-size: 1rem; }
 }
-
-.info-card * {
-  all: unset;
-  display: revert;
-}
-
