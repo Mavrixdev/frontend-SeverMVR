@@ -1,6 +1,9 @@
 // ========================================
-// DOCS PAGE FUNCTIONALITY (FIXED VERSION)
+// DOCS PAGE FUNCTIONALITY (WEB API VERSION)
 // ========================================
+
+// 🔥 Backend web cố định
+const WEB_API_BASE = "https://api-mvr.vercel.app";
 
 /**
  * Handle test button clicks - redirect to home with API URL
@@ -18,7 +21,7 @@ function handleTestButtonClick(event) {
 /**
  * Render a single endpoint card
  */
-function renderEndpointCard(endpoint, baseUrl) {
+function renderEndpointCard(endpoint) {
     const container = document.createElement('div');
     container.className = 'endpoint-card glass-card';
 
@@ -42,7 +45,7 @@ function renderEndpointCard(endpoint, baseUrl) {
 
     const btn = document.createElement('button');
     btn.className = 'test-btn';
-    btn.setAttribute('data-url', (baseUrl || getDefaultBase()) + endpoint.path);
+    btn.setAttribute('data-url', WEB_API_BASE + endpoint.path);
     btn.innerHTML = '<span>Test API</span><span class="btn-icon">→</span>';
     header.appendChild(btn);
 
@@ -61,26 +64,20 @@ function renderEndpointCard(endpoint, baseUrl) {
     if (endpoint.exampleResponse) {
         const respWrap = document.createElement('div');
         respWrap.className = 'endpoint-response';
+
         const h4 = document.createElement('h4');
         h4.textContent = 'Response:';
         respWrap.appendChild(h4);
+
         const pre = document.createElement('pre');
         pre.className = 'response-json';
         pre.textContent = JSON.stringify(endpoint.exampleResponse, null, 2);
         respWrap.appendChild(pre);
+
         container.appendChild(respWrap);
     }
 
     return container;
-}
-
-function getDefaultBase() {
-    try {
-        const origin = window.location.origin;
-        if (origin && origin.startsWith('http')) return origin;
-    } catch (e) {}
-    
-    return 'http://localhost:3001';
 }
 
 /**
@@ -91,82 +88,48 @@ async function fetchAndRenderEndpoints() {
     if (!container) return;
 
     try {
-        // FIXED: full list of backend bases
-        const candidates = [];
+        const resp = await fetch(`${WEB_API_BASE}/__endpoints`, { cache: "no-store" });
 
-        // 1. Current origin (if deployed)
-        try { 
-            if (window.location.origin && window.location.origin !== 'null') 
-                candidates.push(window.location.origin); 
-        } catch (e) {}
+        if (!resp.ok) throw new Error("Bad response");
 
-        // 2. Local development servers
-        candidates.push('http://localhost:3001');
-        candidates.push('http://localhost:3000');
+        const endpoints = await resp.json();
 
-        // 3. FIXED: Add Vercel backend domain
-        candidates.push('https://api-mvr.vercel.app');
-
-        // Try backend candidates
-        let endpoints = null;
-        let successfulBase = null;
-
-        for (const base of candidates) {
-            const url = `${base}/__endpoints`;
-
-            try {
-                const resp = await fetch(url, { cache: 'no-store' });
-                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-
-                const data = await resp.json();
-                if (Array.isArray(data)) {
-                    endpoints = data;
-                    successfulBase = base;
-                    break;
-                }
-            } catch (err) {
-                console.debug('docs: failed:', url, err.message || err);
-                continue;
-            }
-        }
+        if (!Array.isArray(endpoints)) throw new Error("Invalid format");
 
         container.innerHTML = '';
 
-        if (!endpoints) {
-            container.innerHTML = `
-                <div class="endpoint-card glass-card">
-                    <p class="endpoint-description">
-                        Không thể tải danh sách endpoints.  
-                        Hãy đảm bảo backend đang chạy hoặc chỉnh lại API domain.
-                    </p>
-                </div>`;
-            return;
-        }
-
         endpoints.forEach(ep => {
-            const card = renderEndpointCard(ep, successfulBase);
+            const card = renderEndpointCard(ep);
             container.appendChild(card);
         });
 
-        container.querySelectorAll('.test-btn').forEach(button => {
-            button.addEventListener('click', handleTestButtonClick);
+        container.querySelectorAll('.test-btn').forEach(btn => {
+            btn.addEventListener('click', handleTestButtonClick);
         });
 
     } catch (error) {
-        container.innerHTML = `<div class="endpoint-card glass-card">
-            <p class="endpoint-description">Không thể tải endpoints.</p>
-        </div>`;
+        console.error(error);
+        container.innerHTML = `
+            <div class="endpoint-card glass-card">
+                <p class="endpoint-description">
+                    Không thể tải danh sách endpoints từ web API.<br>
+                    Kiểm tra lại API Vercel: <code>${WEB_API_BASE}</code>
+                </p>
+            </div>`;
     }
 }
 
+/**
+ * Initialize docs page
+ */
 function initDocsPage() {
-    console.log('📚 Docs page initialized');
+    console.log("📚 Docs page initialized (WEB API MODE)");
     fetchAndRenderEndpoints();
 }
 
-document.addEventListener('DOMContentLoaded', initDocsPage);
+document.addEventListener("DOMContentLoaded", initDocsPage);
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== "undefined" && module.exports) {
     module.exports = {
         handleTestButtonClick,
         initDocsPage
