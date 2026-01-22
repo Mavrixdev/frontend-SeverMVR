@@ -376,3 +376,117 @@ body {
   .avatar { width: 100px; height: 100px; }
   .name { font-size: 1.6rem; }
 }
+
+/* =====================================================
+   ICON GLASS ULTRA – iOS 18 / VisionOS
+===================================================== */
+
+.contact-icons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.2rem;
+}
+
+/* Glass Icon */
+.icon-btn {
+  width: 60px;
+  height: 60px;
+
+  background: rgba(255,255,255,0.06);
+  border-radius: 22px;
+
+  border: 1.5px solid rgba(255,255,255,0.25);
+  box-shadow:
+    0 6px 20px rgba(0,0,0,0.25),
+    inset 0 0 12px rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(18px) saturate(180%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--primary);
+  text-decoration: none;
+  position: relative;
+
+  transition: all 0.28s cubic-bezier(.23,1,.32,1);
+  transform-style: preserve-3d;
+}
+
+/* Shine effect */
+.icon-btn::after {
+  content: "";
+  position: absolute;
+  top: -45%;
+  left: -45%;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(
+      circle,
+      rgba(255,255,255,0.25) 0%,
+      transparent 70%
+  );
+  opacity: 0;
+  transition: 0.4s;
+}
+
+/* Hover effect */
+.icon-btn:hover {
+  transform: translateY(-9px) scale(1.12);
+  border-color: rgba(255,255,255,0.45);
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.35),
+    inset 0 0 18px rgba(255,255,255,0.25);
+}
+
+.icon-btn:hover::after {
+  opacity: 1;
+}
+
+/* Tooltip */
+.icon-btn::before {
+  content: attr(title);
+  position: absolute;
+  bottom: -32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: rgba(0,0,0,0.55);
+  padding: 4px 10px;
+  border-radius: 10px;
+  opacity: 0;
+  color: #fff;
+  font-size: 0.75rem;
+  transition: 0.25s;
+  white-space: nowrap;
+}
+
+.icon-btn:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0px);
+}
+
+/* SVG FIX – neon glass line */
+.icon-btn svg {
+  width: 26px;
+  height: 26px;
+  stroke: var(--primary);
+  stroke-width: 2px;
+  fill: none;
+  filter: drop-shadow(0 0 8px rgba(125,226,199,0.4));
+  transition: 0.25s;
+}
+
+.icon-btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* Special icon colors */
+.facebook-btn svg { stroke: #3b82f6; }
+.github-btn svg { stroke: #ffffffc7; }
+.zalo-btn svg { stroke: #0a7cff; }
+.phone-btn svg { stroke: #7de2c7; }
+.email-btn svg { stroke: #7de2c7; }
